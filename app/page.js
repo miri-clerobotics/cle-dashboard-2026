@@ -6,7 +6,7 @@ import { supabase } from '../lib/supabase'
 function EmployeeCard({ emp }) {
   return (
     <div style={{ 
-      padding: '12px',           // 피그마 p-2 수준 (8~10px)
+      padding: '8px',           // 피그마 p-2 수준 (8~10px)
       backgroundColor: 'white', 
       borderRadius: '100px', 
       border: '1px solid #eee',
