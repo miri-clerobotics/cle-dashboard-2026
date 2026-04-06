@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 
 // 🎨 [디자인 수정은 여기서!] 개별 카드 컴포넌트
 function EmployeeCard({ emp }) {
+  const logoUrl = "https://mqveznjwafqfmifkffno.supabase.co/storage/v1/object/public/avatars/emp_empty.jpg";
   return (
     <div style={{ 
       padding: '4px',           // 피그마 p-2 수준 (8~10px)
