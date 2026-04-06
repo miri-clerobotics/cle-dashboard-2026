@@ -21,7 +21,7 @@ function EmployeeCard({ emp }) {
         <img 
           src={emp.image_url || 'https://via.placeholder.com/50'} 
           alt={emp.name} 
-          style={{ width: '48px', height: '48px', borderRadius: '6px', objectFit: 'cover' }} 
+          style={{ width: '60px', height: '60px', borderRadius: '100px', objectFit: 'cover' }} 
         />
         
         {/* 상태 오버레이 (출장/휴가 등) */}
