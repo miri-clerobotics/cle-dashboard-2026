@@ -6,11 +6,11 @@ import { supabase } from '../lib/supabase'
 function EmployeeCard({ emp }) {
   return (
     <div style={{ 
-      padding: '8px',           // 피그마 p-2 수준 (8~10px)
+      padding: '4px',           // 피그마 p-2 수준 (8~10px)
       backgroundColor: 'white', 
       borderRadius: '100px', 
       border: '1px solid #eee',
-      boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+      boxShadow: '0 1px 1px rgba(0,0,0,0.1)',
       transition: 'all 0.2s',
       display: 'flex',
       alignItems: 'center',
