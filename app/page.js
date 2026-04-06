@@ -20,7 +20,7 @@ function EmployeeCard({ emp }) {
       {/* 1. 왼쪽 사진 구역 */}
       <div style={{ position: 'relative', flexShrink: 0 }}>
         <img 
-          src={emp.image_url || 'https://via.placeholder.com/50'} 
+          src={emp.image_url || logoUrl} 
           alt={emp.name} 
           style={{ width: '60px', height: '60px', borderRadius: '100px', objectFit: 'cover' }} 
         />
