@@ -2,49 +2,84 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
+// 🎨 [디자인 수정은 여기서!] 개별 카드 컴포넌트
+function EmployeeCard({ emp }) {
+  return (
+    <div style={{ 
+      padding: '12px',           // 피그마 p-2 수준 (8~10px)
+      backgroundColor: 'white', 
+      borderRadius: '8px', 
+      border: '1px solid #eee',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+      transition: 'all 0.2s',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '12px'                // 사진과 텍스트 사이 간격
+    }}>
+      {/* 1. 왼쪽 사진 구역 */}
+      <div style={{ position: 'relative', flexShrink: 0 }}>
+        <img 
+          src={emp.iimage_url || 'https://via.placeholder.com/50'} 
+          alt={emp.name} 
+          style={{ width: '48px', height: '48px', borderRadius: '6px', objectFit: 'cover' }} 
+        />
+        
+        {/* 상태 오버레이 (출장/휴가 등) */}
+        {emp.status && emp.status !== 'active' && (
+          <div style={{
+            position: 'absolute', bottom: 0, left: 0, right: 0,
+            backgroundColor: emp.status === 'trip' ? '#60a5fa' : '#4ade80',
+            color: 'white', fontSize: '9px', fontWeight: 'bold',
+            textAlign: 'center', borderRadius: '0 0 6px 6px', padding: '2px 0'
+          }}>
+            {emp.status === 'trip' ? '출장중' : '휴가중'}
+          </div>
+        )}
+      </div>
+
+      {/* 2. 오른쪽 정보 구역 */}
+      <div style={{ overflow: 'hidden' }}>
+        <h3 style={{ fontSize: '14px', fontWeight: 'bold', margin: 0, color: '#111' }}>
+          {emp.name}
+        </h3>
+        <p style={{ fontSize: '12px', color: '#666', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {emp.rank} / {emp.part}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// 🏗️ 전체 페이지 레이아웃
 export default function Home() {
   const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchEmployees() {
-      // 'employees' 테이블에서 모든 데이터를 가져옵니다.
-      const { data, error } = await supabase.from('employees').select('*')
-      if (data) {
-        setEmployees(data)
-      }
+      const { data } = await supabase.from('employees').select('*')
+      if (data) setEmployees(data)
       setLoading(false)
     }
     fetchEmployees()
   }, [])
 
-  if (loading) return <div style={{ padding: '40px' }}>데이터를 불러오는 중...</div>
+  if (loading) return <div style={{ padding: '40px' }}>데이터 로딩 중...</div>
 
   return (
     <div style={{ padding: '40px', backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
-      <h1 style={{ color: '#333', marginBottom: '24px' }}>CLE 2026 팀 대시보드</h1>
+      <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '32px' }}>CLE 2026 팀 대시보드</h1>
       
-      {employees.length === 0 ? (
-        <p>등록된 팀원이 없습니다. Supabase에 데이터를 추가해 보세요!</p>
-      ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
-          {employees.map((emp) => (
-            <div key={emp.id} style={{ padding: '20px', backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-              {/* 프로필 이미지 (iimage_url 사용) */}
-              {emp.iimage_url && (
-                <img src={emp.iimage_url} alt={emp.name} style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '8px', marginBottom: '12px' }} />
-              )}
-              
-              <h2 style={{ fontSize: '20px', margin: '0 0 4px 0' }}>{emp.name}</h2>
-              <p style={{ color: '#007AFF', fontWeight: 'bold', margin: '0 0 8px 0' }}>{emp.rank} ({emp.part})</p>
-              
-              <div style={{ display: 'inline-block', padding: '4px 12px', backgroundColor: emp.status === 'active' ? '#e1f5fe' : '#eee', borderRadius: '20px', fontSize: '14px' }}>
-                {emp.status}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      {/* 카드들이 배치되는 그리드 시스템 */}
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', 
+        gap: '16px' 
+      }}>
+        {employees.map((emp) => (
+          <EmployeeCard key={emp.id} emp={emp} />
+        ))}
+      </div>
     </div>
   )
 }
