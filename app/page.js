@@ -7,7 +7,7 @@ function EmployeeCard({ emp }) {
   const logoUrl = "https://mqveznjwafqfmifkffno.supabase.co/storage/v1/object/public/avatars/emp_empty.jpg";
   return (
     <div style={{ 
-      padding: '4px',           // 피그마 p-2 수준 (8~10px)
+      padding: '4px',          
       backgroundColor: 'white', 
       borderRadius: '100px', 
       border: '1px solid #eee',
@@ -31,7 +31,7 @@ function EmployeeCard({ emp }) {
             position: 'absolute', bottom: 0, left: 0, right: 0,
             backgroundColor: emp.status === 'trip' ? '#60a5fa' : '#4ade80',
             color: 'white', fontSize: '9px', fontWeight: 'bold',
-            textAlign: 'center', borderRadius: '0 0 6px 6px', padding: '2px 0'
+            textAlign: 'center', borderRadius: '6px', padding: '2px 0'
           }}>
             {emp.status === 'trip' ? '출장중' : '휴가중'}
           </div>
