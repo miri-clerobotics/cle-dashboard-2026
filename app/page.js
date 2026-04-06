@@ -8,7 +8,7 @@ function EmployeeCard({ emp }) {
     <div style={{ 
       padding: '12px',           // 피그마 p-2 수준 (8~10px)
       backgroundColor: 'white', 
-      borderRadius: '8px', 
+      borderRadius: '100px', 
       border: '1px solid #eee',
       boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
       transition: 'all 0.2s',
