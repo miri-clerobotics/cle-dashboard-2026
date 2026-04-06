@@ -1,50 +1,75 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { motion } from 'framer-motion' // 애니메이션 효과용
 
 export default function Home() {
   const [employees, setEmployees] = useState([])
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchEmployees() {
-      // 'employees' 테이블에서 모든 데이터를 가져옵니다.
-      const { data, error } = await supabase.from('employees').select('*')
-      if (data) {
-        setEmployees(data)
-      }
-      setLoading(false)
+      const { data } = await supabase.from('employees').select('*')
+      if (data) setEmployees(data)
     }
     fetchEmployees()
   }, [])
 
-  if (loading) return <div style={{ padding: '40px' }}>데이터를 불러오는 중...</div>
-
   return (
-    <div style={{ padding: '40px', backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
-      <h1 style={{ color: '#333', marginBottom: '24px' }}>CLE 2026 팀 대시보드</h1>
+    <div className="p-10 bg-gray-50 min-h-screen">
+      <h1 className="text-2xl font-bold mb-8 text-gray-800">CLE 2026 팀 대시보드</h1>
       
-      {employees.length === 0 ? (
-        <p>등록된 팀원이 없습니다. Supabase에 데이터를 추가해 보세요!</p>
-      ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
-          {employees.map((emp) => (
-            <div key={emp.id} style={{ padding: '20px', backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-              {/* 프로필 이미지 (iimage_url 사용) */}
-              {emp.iimage_url && (
-                <img src={emp.iimage_url} alt={emp.name} style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '8px', marginBottom: '12px' }} />
-              )}
-              
-              <h2 style={{ fontSize: '20px', margin: '0 0 4px 0' }}>{emp.name}</h2>
-              <p style={{ color: '#007AFF', fontWeight: 'bold', margin: '0 0 8px 0' }}>{emp.rank} ({emp.part})</p>
-              
-              <div style={{ display: 'inline-block', padding: '4px 12px', backgroundColor: emp.status === 'active' ? '#e1f5fe' : '#eee', borderRadius: '20px', fontSize: '14px' }}>
-                {emp.status}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {employees.map((emp) => (
+          <motion.div
+            key={emp.id}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="relative"
+          >
+            {/* 카드 본체 */}
+            <div className="bg-white rounded-lg p-2 border border-gray-200 shadow hover:shadow-lg transition-all hover:scale-105">
+              <div className="flex items-center gap-3">
+                
+                {/* 왼쪽: 프로필 이미지 및 상태 뱃지 */}
+                <div className="relative flex-shrink-0">
+                  <img
+                    src={emp.iimage_url || 'https://via.placeholder.com/150'}
+                    alt={emp.name}
+                    className="w-12 h-12 rounded-md object-cover"
+                  />
+                  {/* 상태(status)가 있을 때만 오버레이 표시 */}
+                  {emp.status && (
+                    <>
+                      <div className="absolute inset-0 bg-black/40 rounded-md"></div>
+                      <div
+                        className={`absolute bottom-0 left-0 right-0 py-0.5 text-center text-[9px] font-bold rounded-b-md text-white ${
+                          emp.status === "trip" ? "bg-blue-400" : 
+                          emp.status === "vacation" ? "bg-green-400" : "bg-red-400"
+                        }`}
+                      >
+                        {emp.status === "trip" ? "출장중" : 
+                         emp.status === "vacation" ? "휴가중" : "온보딩"}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* 오른쪽: 이름 및 직급 정보 */}
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-gray-900 text-sm font-bold truncate">
+                    {emp.name}
+                  </h3>
+                  <p className="text-gray-600 text-xs truncate">
+                    {emp.rank} / {emp.part}
+                  </p>
+                </div>
+
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          </motion.div>
+        ))}
+      </div>
     </div>
   )
 }
