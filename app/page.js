@@ -10,7 +10,7 @@ function EmployeeCard({ emp }) {
   const getStatusColor = (status) => {
     if (status === "trip") return "#60a5fa";    // 파랑 (출장)
     if (status === "vacation") return "#4ade80"; // 초록 (휴가)
-    return "#f87171";                            // 빨강 (온보딩 등)
+    return "#f87171";                            // 빨강 (온보딩)
   };
 
   return (
@@ -42,10 +42,10 @@ function EmployeeCard({ emp }) {
             backgroundColor: getStatusColor(emp.status),
             color: 'white',
             fontSize: '9px',
-            fontWeight: 'bold',
+            fontWeight: 'medium',
             textAlign: 'center',
             padding: '2px 0',
-            borderRadius: '0 0 30px 30px'
+            borderRadius: '30px'
           }}>
             {emp.status === "trip" ? "출장중" : emp.status === "vacation" ? "휴가중" : "온보딩"}
           </div>
@@ -54,11 +54,12 @@ function EmployeeCard({ emp }) {
 
       {/* 2. 오른쪽 정보 구역 */}
       <div style={{ overflow: 'hidden', paddingRight: '12px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 'bold', margin: 0, color: '#111' }}>
+        <h3 style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: 8, color: '#111' }}>
           {emp.name}
         </h3>
-        <p style={{ fontSize: '12px', color: '#666', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {emp.rank} / {emp.part}
+        <p style={{ fontSize: '12px', fontHeight: '160%', color: '#666', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {emp.rank} 
+          {emp.part}
         </p>
       </div>
     </div>
