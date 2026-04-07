@@ -26,21 +26,21 @@ function EmployeeCard({ emp }) {
         />
         
         {/* 상태 오버레이 (출장/휴가/온보딩 등) */}
-        {employee.status && (
+        {emp.status && (
               <>
                 <div className="absolute inset-0 bg-black/50 rounded-md"></div>
                 <div
                   className={`absolute bottom-0 left-0 right-0 py-0.5 text-center text-[9px] font-bold rounded-b-md ${
-                    employee.status === "trip"
+                    emp.status === "trip"
                       ? "bg-blue-400 text-white"
-                      : employee.status === "vacation"
+                      : emp.status === "vacation"
                         ? "bg-green-400 text-white"
                         : "bg-red-400 text-white"
                   }`}
                 >
-                  {employee.status === "trip"
+                  {emp.status === "trip"
                     ? "출장중"
-                    : employee.status === "vacation"
+                    : emp.status === "vacation"
                       ? "휴가중"
                       : "온보딩"}
           </div>
