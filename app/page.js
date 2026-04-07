@@ -54,7 +54,7 @@ function EmployeeCard({ emp }) {
 
       {/* 2. 오른쪽 정보 구역 */}
       <div style={{ overflow: 'hidden', paddingRight: '12px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: 4px, color: '#111' }}>
+        <h3 style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '4px', color: '#111' }}>
           {emp.name}
         </h3>
         <p style={{ fontSize: '12px', color: '#666', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
