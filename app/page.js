@@ -2,9 +2,17 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
-// 🎨 [디자인 수정은 여기서!] 개별 카드 컴포넌트
+// 🎨 개별 카드 컴포넌트
 function EmployeeCard({ emp }) {
   const logoUrl = "https://mqveznjwafqfmifkffno.supabase.co/storage/v1/object/public/avatars/emp_empty.jpg";
+
+  // 상태에 따른 배경색 결정
+  const getStatusColor = (status) => {
+    if (status === "trip") return "#60a5fa";    // 파랑 (출장)
+    if (status === "vacation") return "#4ade80"; // 초록 (휴가)
+    return "#f87171";                            // 빨강 (온보딩 등)
+  };
+
   return (
     <div style={{ 
       padding: '4px',          
@@ -12,21 +20,20 @@ function EmployeeCard({ emp }) {
       borderRadius: '100px', 
       border: '1px solid #eee',
       boxShadow: '0 1px 1px rgba(0,0,0,0.1)',
-      transition: 'all 0.2s',
       display: 'flex',
       alignItems: 'center',
-      gap: '12px'                // 사진과 텍스트 사이 간격
+      gap: '12px'
     }}>
       {/* 1. 왼쪽 사진 구역 */}
-      <div style={{ position: 'relative', flexShrink: 0 }}>
+      <div style={{ position: 'relative', flexShrink: 0, width: '60px', height: '60px' }}>
         <img 
           src={emp.image_url || logoUrl} 
           alt={emp.name} 
-        style={{ width: '60px', height: '60px', borderRadius: '100px', objectFit: 'cover' }} 
+          style={{ width: '60px', height: '60px', borderRadius: '100px', objectFit: 'cover' }} 
         />
         
-  {/* 🚩 상태 오버레이 (인라인 스타일로 변경) */}
-        {emp.status && (
+        {/* 상태 뱃지 (안전하게 조건부 렌더링) */}
+        {emp.status && emp.status !== 'active' && (
           <div style={{
             position: 'absolute',
             bottom: 0,
@@ -38,8 +45,7 @@ function EmployeeCard({ emp }) {
             fontWeight: 'bold',
             textAlign: 'center',
             padding: '2px 0',
-            borderRadius: '0 0 30px 30px', // 원형 하단에 맞게 조절
-            borderTop: '1px solid rgba(255,255,255,0.3)'
+            borderRadius: '0 0 30px 30px'
           }}>
             {emp.status === "trip" ? "출장중" : emp.status === "vacation" ? "휴가중" : "온보딩"}
           </div>
@@ -47,7 +53,7 @@ function EmployeeCard({ emp }) {
       </div>
 
       {/* 2. 오른쪽 정보 구역 */}
-      <div style={{ overflow: 'hidden' }}>
+      <div style={{ overflow: 'hidden', paddingRight: '12px' }}>
         <h3 style={{ fontSize: '14px', fontWeight: 'bold', margin: 0, color: '#111' }}>
           {emp.name}
         </h3>
@@ -56,7 +62,7 @@ function EmployeeCard({ emp }) {
         </p>
       </div>
     </div>
-  )
+  );
 }
 
 // 🏗️ 전체 페이지 레이아웃
@@ -66,9 +72,14 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchEmployees() {
-      const { data } = await supabase.from('employees').select('*')
-      if (data) setEmployees(data)
-      setLoading(false)
+      try {
+        const { data } = await supabase.from('employees').select('*')
+        if (data) setEmployees(data)
+      } catch (error) {
+        console.error("데이터 로딩 에러:", error)
+      } finally {
+        setLoading(false)
+      }
     }
     fetchEmployees()
   }, [])
@@ -79,7 +90,6 @@ export default function Home() {
     <div style={{ padding: '40px', backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
       <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '32px' }}>CLE 2026 팀 대시보드</h1>
       
-      {/* 카드들이 배치되는 그리드 시스템 */}
       <div style={{ 
         display: 'grid', 
         gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', 
@@ -90,5 +100,5 @@ export default function Home() {
         ))}
       </div>
     </div>
-  )
+  );
 }
