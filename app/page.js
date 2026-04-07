@@ -25,24 +25,23 @@ function EmployeeCard({ emp }) {
         style={{ width: '60px', height: '60px', borderRadius: '100px', objectFit: 'cover' }} 
         />
         
-        {/* 상태 오버레이 (출장/휴가/온보딩 등) */}
+  {/* 🚩 상태 오버레이 (인라인 스타일로 변경) */}
         {emp.status && (
-              <>
-                <div className="absolute inset-0 bg-black/50 rounded-md"></div>
-                <div
-                  className={`absolute bottom-0 left-0 right-0 py-0.5 text-center text-[9px] font-bold rounded-b-md ${
-                    emp.status === "trip"
-                      ? "bg-blue-400 text-white"
-                      : emp.status === "vacation"
-                        ? "bg-green-400 text-white"
-                        : "bg-red-400 text-white"
-                  }`}
-                >
-                  {emp.status === "trip"
-                    ? "출장중"
-                    : emp.status === "vacation"
-                      ? "휴가중"
-                      : "온보딩"}
+          <div style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: getStatusColor(emp.status),
+            color: 'white',
+            fontSize: '9px',
+            fontWeight: 'bold',
+            textAlign: 'center',
+            padding: '2px 0',
+            borderRadius: '0 0 30px 30px', // 원형 하단에 맞게 조절
+            borderTop: '1px solid rgba(255,255,255,0.3)'
+          }}>
+            {emp.status === "trip" ? "출장중" : emp.status === "vacation" ? "휴가중" : "온보딩"}
           </div>
         )}
       </div>
