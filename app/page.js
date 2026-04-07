@@ -22,18 +22,27 @@ function EmployeeCard({ emp }) {
         <img 
           src={emp.image_url || logoUrl} 
           alt={emp.name} 
-          style={{ width: '60px', height: '60px', borderRadius: '100px', objectFit: 'cover' }} 
+        style={{ width: '60px', height: '60px', borderRadius: '100px', objectFit: 'cover' }} 
         />
         
-        {/* 상태 오버레이 (출장/휴가 등) */}
-        {emp.status && emp.status !== 'active' && (
-          <div style={{
-            position: 'absolute', bottom: 0, left: 0, right: 0,
-            backgroundColor: emp.status === 'trip' ? '#60a5fa' : '#4ade80',
-            color: 'white', fontSize: '9px', fontWeight: 'bold',
-            textAlign: 'center', borderRadius: '6px', padding: '2px 0'
-          }}>
-            {emp.status === 'trip' ? '출장중' : '휴가중'}
+        {/* 상태 오버레이 (출장/휴가/온보딩 등) */}
+        {employee.status && (
+              <>
+                <div className="absolute inset-0 bg-black/50 rounded-md"></div>
+                <div
+                  className={`absolute bottom-0 left-0 right-0 py-0.5 text-center text-[9px] font-bold rounded-b-md ${
+                    employee.status === "trip"
+                      ? "bg-blue-400 text-white"
+                      : employee.status === "vacation"
+                        ? "bg-green-400 text-white"
+                        : "bg-red-400 text-white"
+                  }`}
+                >
+                  {employee.status === "trip"
+                    ? "출장중"
+                    : employee.status === "vacation"
+                      ? "휴가중"
+                      : "온보딩"}
           </div>
         )}
       </div>
