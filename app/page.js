@@ -102,3 +102,40 @@ export default function Home() {
     </div>
   );
 }
+
+ {/* Bottom Banner - Fixed with Top Border */}
+      <div 
+        className="bg-gradient-to-r from-gray-700 via-gray-800 to-gray-700 overflow-hidden relative flex-shrink-0 border-t border-gray-900" 
+        style={{ height: '40px' }}
+      >
+        <BannerGradient />
+        <div className="absolute inset-0 bg-gray-900/60 z-0" />
+        
+        {/* Scrolling Text Container */}
+        <div className="relative flex items-center h-full overflow-hidden">
+          <motion.div
+            className="flex whitespace-nowrap"
+            animate={{ x: ["0%", "-50%"] }} // 텍스트 절반(한 세트)이 지나면 다시 0%로 리셋
+            transition={{ 
+              duration: 20, // 속도 조절 (숫자가 낮을수록 빠름)
+              repeat: Infinity, 
+              ease: "linear" 
+            }}
+          >
+            {/* 첫 번째 세트 */}
+            <div className="flex items-center">
+              <span className="text-white text-xl font-bold mx-20">모든 사람의 모든 시간이 가치 있도록 로봇과 사람을 잇다.</span>
+              <span className="text-white text-xl font-bold mx-20">Connecting people and robots, to make every moment count for everyone.</span>
+            </div>
+            
+            {/* 두 번째 세트 (무한 연결을 위해 동일하게 복사) */}
+            <div className="flex items-center">
+              <span className="text-white text-xl font-bold mx-20">모든 사람의 모든 시간이 가치 있도록 로봇과 사람을 잇다.</span>
+              <span className="text-white text-xl font-bold mx-20">Connecting people and robots, to make every moment count for everyone.</span>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+}
