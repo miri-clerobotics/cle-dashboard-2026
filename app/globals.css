@@ -1,0 +1,21 @@
+/* app/globals.css */
+
+/* 1. 모든 여백 초기화 (Reset) */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+  background-color: #f9f9f9; /* 대시보드 배경색 */
+}
+
+/* 2. 박스 사이즈 계산 방식 통일 */
+* {
+  box-sizing: border-box;
+}
+
+/* 3. 폰트나 부드러운 스크롤 설정 (선택사항) */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
