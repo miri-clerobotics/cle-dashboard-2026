@@ -74,7 +74,7 @@ export default function Home() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#f9f9f9' }}>
       
       {/* 메인 컨텐츠 */}
-      <div style={{ flex: 1, padding: '40px' }}>
+      <div style={{ flex: 1, padding: '0px' }}>
         <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '32px' }}>CLE 2026 팀 대시보드</h1>
         <div style={{ 
           display: 'grid', 
